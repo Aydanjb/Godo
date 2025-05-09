@@ -42,9 +42,28 @@ func TestCreateTask(t *testing.T) {
 	})
 }
 
+func TestMarkInProgress(t *testing.T) {
+	task := CreateTask("Wash dishes")
+
+	before := time.Now()
+	task.MarkInProgress()
+	after := time.Now()
+
+	t.Run("Status is In Progress", func(t *testing.T) {
+		if task.Status != InProgress {
+			t.Errorf("expected status %v, got %v", InProgress, task.Status)
+		}
+	})
+
+	t.Run("UpdatedAt is in valid range", func(t *testing.T) {
+		if task.UpdatedAt.Before(before) || task.UpdatedAt.After(after) {
+			t.Errorf("expected between %v and %v, got %v", before, after, task.UpdatedAt)
+		}
+	})
+}
+
 func TestMarkDone(t *testing.T) {
-	expectedDescription := "Wash dishes"
-	task := CreateTask(expectedDescription)
+	task := CreateTask("Wash dishes")
 
 	before := time.Now()
 	task.MarkDone()

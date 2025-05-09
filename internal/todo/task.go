@@ -30,6 +30,11 @@ func CreateTask(description string) Task {
 	}
 }
 
+func (t *Task) MarkInProgress() {
+	t.Status = InProgress
+	t.UpdatedAt = time.Now()
+}
+
 // MarkDone sets a task's status to Done and updates UpdatedAt to the current time.
 func (t *Task) MarkDone() {
 	t.Status = Done
