@@ -18,18 +18,12 @@ type Task struct {
 	UpdatedAt   time.Time
 }
 
-// CreateTask returns a new Task with the given description and the current timestamp.
-// The task is marked as Todo by default.
-func CreateTask(description string) Task {
-	return Task{
-		ID:          1,
-		Description: description,
-		Status:      Todo,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-	}
+func (t *Task) MarkTodo() {
+	t.Status = Todo
+	t.UpdatedAt = time.Now()
 }
 
+// MarkInProgress sets a task's status to InProgress and updates UpdatedAt to the current time.
 func (t *Task) MarkInProgress() {
 	t.Status = InProgress
 	t.UpdatedAt = time.Now()
