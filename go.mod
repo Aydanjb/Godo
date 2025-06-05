@@ -1,4 +1,4 @@
-module Godo
+module github.com/aydanjb/Godo
 
 go 1.23
 

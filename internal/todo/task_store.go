@@ -15,7 +15,7 @@ type JSONTaskStore struct {
 }
 
 func (j JSONTaskStore) Save(tl *TaskList) error {
-	data, err := json.Marshal(tl)
+	data, err := json.MarshalIndent(tl, "", "   ")
 	if err != nil {
 		return err
 	}

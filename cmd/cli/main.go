@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"Godo/internal/todo"
+	"github.com/aydanjb/Godo/internal/todo"
 	"github.com/urfave/cli/v2"
 )
 
@@ -18,7 +18,7 @@ func main() {
 	}
 
 	app := &cli.App{
-		Name:  "godo",
+		Name:  "cli",
 		Usage: "a simple task manager",
 		Commands: []*cli.Command{
 			{
