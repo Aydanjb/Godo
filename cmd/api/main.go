@@ -26,12 +26,11 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /{$}", repo.home)
-	mux.HandleFunc("GET /todo", getTasks)
-	mux.HandleFunc("GET /todo/{status}", getTasksByStatus)
+	mux.HandleFunc("GET /todo/{$}", repo.getTasks)
+	mux.HandleFunc("GET /todo/{status}", repo.getTasksByStatus)
 	mux.HandleFunc("POST /todo/create", repo.postTask)
-	mux.HandleFunc("PATCH /todo/{id}/{status}", patchStatus)
-	mux.HandleFunc("DELETE /todo/delete/{taskID}", deleteTask)
+	mux.HandleFunc("PATCH /todo/{id}", repo.patchTask)
+	mux.HandleFunc("DELETE /todo/{id}", repo.deleteTask)
 
 	server := &http.Server{
 		Addr:    ":4000",
@@ -55,7 +54,8 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	if err = server.Shutdown(ctx); err != nil {
+	err = server.Shutdown(ctx)
+	if err != nil {
 		log.Fatalf("Server Shutdown Failure: %+v", err)
 	}
 
@@ -63,9 +63,8 @@ func main() {
 	if err != nil {
 		log.Printf("Failed to save tasks: %v", err)
 	} else {
-		log.Println("Tasks saved to tasks.json")
+		log.Printf("Saving %d tasks to %s\n", len(repo.TaskList.Tasks), ts.Filepath)
 	}
-	log.Printf("Saving %d tasks to %s\n", len(repo.TaskList.Tasks), ts.Filepath)
 
 	log.Println("Server shutdown gracefully")
 }
